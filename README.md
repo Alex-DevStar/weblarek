@@ -14,6 +14,7 @@
 - src/scss/styles.scss — корневой файл стилей
 - src/utils/constants.ts — файл с константами
 - src/utils/utils.ts — файл с утилитами
+<!-- - src/components/base/Models/ — папка с классами -->
 
 ## Установка и запуск
 Для установки и запуска проекта необходимо выполнить команды
@@ -97,4 +98,76 @@ Presenter - презентер содержит основную логику п
 `on<T extends object>(event: EventName, callback: (data: T) => void): void` - подписка на событие, принимает название события и функцию обработчик.  
 `emit<T extends object>(event: string, data?: T): void` - инициализация события. При вызове события в метод передается название события и объект с данными, который будет использован как аргумент для вызова обработчика.  
 `trigger<T extends object>(event: string, context?: Partial<T>): (data: T) => void` - возвращает функцию, при вызове которой инициализируется требуемое в параметрах событие с передачей в него данных из второго параметра.
+
+#### Класс Catalog
+Класс реализует хранение массива карточек товаров и конкретной выбранной карточки для дальнейшего взаимодействия с ними, позволяет как добавлять так и удалять массив либо саму карточку.
+
+Конструктор: 
+```ts
+constructor(productList: IProduct[], productSelected : IProduct) {
+    this._productList = productList;
+    this._productSelected  = productSelected;
+  }
+  ```
+- В конструктор передается базовый массив карточек и карточка выбранного товара.
+  
+Поля класса: 
+`_productList: IProduct[]` - массив карточек товаров
+`_productSelected : IProduct` - карточка выбранного товара
+
+Методы класса:  
+`get productList()` - возвращает массив карточек товаров
+`set productSelected(product: IProduct)` - возвращает карточку выбранного товара
+`get productSelected()` - сохраеняет карточку выбранного товара 
+`set productList(products: IProduct[])` - сохраняет массив карточек товаров
+`productById(id: string) :IProduct | undefined` - получение одного товара по его id
+
+### Данные (Модели данных)
+
+### Интерфейс IProduct
+
+Интерфейс описывает структуру объекта товара. Используется для типизации данных при работе с каталогом продуктов, обеспечивая единообразие и надёжность обращения к полям объекта.
+
+```ts
+interface IProduct {
+  id: string;
+  description: string;
+  image: string;
+  title: string;
+  category: string;
+  price: number | null;
+}
+```
+Поля интерфейса: 
+`id: string;` - уникальный индентификационный номер
+`description: string` - подробное описание товара
+`image: string` - ссылка на исходное изображение
+`title: string` - Заголовок товара 
+`category: string` - категория, которой относится товар
+`price: number | null` - цена товара, либо null, если цена отсутствует
+
+### Интерфейс IBuyer
+
+Интерфейс описывает структуру обьекта покупателя. Используется для типизации и обработки информации при оформлении заказа.
+
+```ts
+interface IBuyer {
+  payment: TPayment;
+  email: string;
+  phone: string;
+  address: string;
+}
+```
+
+Поля интерфейса:
+
+`payment: TPayment` - тип оплаты, в зависимости от выбранного варианта на основе типа 
+``` ts 
+type TPayment = "card" | "cash" | "";
+```
+`email: string` - электронная почта  
+`phone: string` - телнфонный номер 
+`address: string` - адрес покупателя
+
+
 
