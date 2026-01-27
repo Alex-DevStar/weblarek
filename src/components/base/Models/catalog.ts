@@ -1,33 +1,36 @@
 import { IProduct } from "../../../types";
 
 class Catalog  {
-  private _productList: IProduct[];
-  private _productSelected : IProduct;
+  private productList: IProduct[];
+  private productSelected : IProduct;
 
-  constructor(productList: IProduct[], productSelected : IProduct) {
-    this._productList = productList;
-    this._productSelected  = productSelected;
+  constructor(productList: IProduct[], productSelected: IProduct) {
+    this.productList = productList;
+    this.productSelected  = productSelected;
   }
 
-  get productList(){
-    return this._productList
+  getProductList(){
+    return this.productList
   }
 
-  set productSelected(product: IProduct){
-    this._productSelected = product;
+  setProductSelected(product: IProduct){
+    this.productSelected = product;
   }
 
-  get productSelected(){
-    return this._productSelected;
+  getProductSelected(){
+    return this.productSelected;
   }
 
-  set productList(products: IProduct[]){
-     this._productList = products
+  setProductList(products: IProduct[]){
+     this.productList = products
   }
 
    productById(id: string) :IProduct | undefined{
-    return this._productList.find((item) => item.id === id)
+    return this.productList.find((item) => item.id === id)
   }
 
+
   }
+
+
 

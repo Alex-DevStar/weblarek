@@ -1,31 +1,31 @@
 import { IProduct } from "../../../types";
 
 class Cart {
-  private _productList: IProduct[];
+  private productList: IProduct[];
 
   constructor(productList: IProduct[] = []) {
-    this._productList = productList;
+    this.productList = productList;
   }
-  get productList(){
-    return this._productList
+  getProductList(){
+    return this.productList
   }
 
   add(product: IProduct) {
-    this._productList.push(product)
+    this.productList.push(product)
   }
 
   remove(product: IProduct){
-    const index = this._productList.indexOf(product);
-    this._productList.splice(index, 1)
+    const index = this.productList.indexOf(product);
+    this.productList.splice(index, 1)
   }
 
   clear(){
-    this._productList = [];
+    this.productList = [];
 
   }
 
   totalPrice(){
-    const result = this._productList.reduce((acc: number, item: IProduct ): number => {
+    const result = this.productList.reduce((acc: number, item: IProduct ): number => {
       if (item.price !== null) {
       acc += item.price }
       return acc
@@ -34,11 +34,11 @@ class Cart {
   }
 
   quantity(){
-    return this._productList.length
+    return this.productList.length
   }
 
   availability(id: string): boolean{
-    let item = this._productList.find((item) => item.id === id)
+    let item = this.productList.find((item) => item.id === id)
     if (item) {
       return true
     }

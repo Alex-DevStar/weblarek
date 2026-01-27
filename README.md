@@ -105,47 +105,70 @@ Presenter - презентер содержит основную логику п
 Конструктор: 
 ```ts
 constructor(productList: IProduct[], productSelected : IProduct) {
-    this._productList = productList;
-    this._productSelected  = productSelected;
+    this.productList = productList;
+    this.productSelected  = productSelected;
   }
   ```   
 - В конструктор передается базовый массив карточек и карточка выбранного товара.  
   
 Поля класса: 
-`_productList: IProduct[]` - массив карточек товаров.  
-`_productSelected : IProduct` - карточка выбранного товара.  
+`productList: IProduct[]` - массив карточек товаров.  
+`productSelected : IProduct` - карточка выбранного товара.  
 
 Методы класса:  
-`get productList()` - возвращает массив карточек товаров.  
-`set productSelected(product: IProduct)` - возвращает карточку выбранного товара.  
-`get productSelected()` - сохраеняет карточку выбранного товара.  
-`set productList(products: IProduct[])` - сохраняет массив карточек товаров.  
+`getProductList()` - возвращает массив карточек товаров.  
+`setProductSelected(product: IProduct)` - возвращает карточку выбранного товара.  
+`getProductSelected()` - сохраеняет карточку выбранного товара.  
+`setProductList(products: IProduct[])` - сохраняет массив карточек товаров.  
 `productById(id: string) :IProduct | undefined` - получение одного товара по его id.  
 
 #### Класс Cart
 
-Класс выполняет хранение карточек товаров в корзине ввиде массива, для дальнейшего управления классом , реализованы всевозможные способы манипуляации с корзиной и товарами в ней.  
+Класс выполняет хранение карточек товаров в корзине ввиде массива, так же предоставляет все необходимые методы для управления товарами в корзине: добавление, удаление, очистка, подсчёт и проверка наличия.  
 
 Конструктор:  
 ```ts
 constructor(productList: IProduct[] = []) {
-    this._productList = productList;
+    this.productList = productList;
   }
 ```
-- В конструктор передается пустой массив.    
+- По умолчанию в конструктор передаётся пустой массив, но при необходимости можно передать уже существующий список товаров.    
 
 Поля класса:  
 
-`_productList: IProduct[]` - массив корзины для товаров. 
+`productList: IProduct[]` - массив корзины для товаров. 
 
 Методы класса:  
-`get productList()` - получение массива товаров, которые находятся в корзине  
+`getProductList()` - получение массива товаров, которые находятся в корзине  
 `add(product: IProduct)` - добавление товара, который был получен в параметре, в массив корзины.  
 `remove(product: IProduct)` - удаление товара, полученного в параметре из массива корзины.  
 `clear()` - очистка корзины.  
 `totalPrice()` - получение стоимости всех товаров в корзине.  
 `quantity()` - получение количества товаров в корзине.  
 `availability(id: string): boolean` - проверка наличия товара в корзине по его id, полученного в параметр метода.  
+
+#### Класс Customer
+
+тут описание классса бубубу
+
+Конструктор:  
+```ts
+constructor({payment, address, phone, email}: IBuyer){
+    this.payment = payment;
+    this.address = address;
+    this.phone = phone;
+    this.email = email;
+  }
+```
+
+Поля класса: 
+
+`payment: TPayment` - 
+`address: string` - 
+`phone: string` - 
+`email: string` - 
+
+Методы класса: 
 
 ### Данные (Модели данных)
 
@@ -194,6 +217,13 @@ type TPayment = "card" | "cash" | "";
 `email: string` - электронная почта  
 `phone: string` - телнфонный номер  
 `address: string` - адрес покупателя  
+
+#### Тип TPayment
+
+```ts 
+type TPayment = "" | "card" | "cash"
+```
+Тип содержит варинаты оплаты для интерфейса IBuyer.  
 
 
 
