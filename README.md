@@ -149,7 +149,7 @@ constructor(productList: IProduct[] = []) {
 
 #### Класс Customer
 
-тут описание классса бубубу
+Класс `Customer` представляет покупателя и хранит данные, необходимые для оформления заказа: способ оплаты, адрес доставки, телефон и e-mail.   
 
 Конструктор:  
 ```ts
@@ -163,12 +163,17 @@ constructor({payment, address, phone, email}: IBuyer){
 
 Поля класса: 
 
-`payment: TPayment` - 
-`address: string` - 
-`phone: string` - 
-`email: string` - 
+`payment: TPayment` - вариант оплаты.  
+`address: string` - адрес покупателя.  
+`phone: string` - номер телефона.  
+`email: string` - адрес электронной почты.  
 
 Методы класса: 
+`fill (email?: string, phone?: string, address?: string, payment?: TPayment)` - сохранение данных в модели, позволяет частично обновить любые поля покупателя.  
+  
+`data(): IBuyer` - получение всех данных покупателя.  
+`reset()` - очистка данных покупателя.  
+`validation()` -  валидация данных, поле является валидным, если оно не пустое.  
 
 ### Данные (Модели данных)
 

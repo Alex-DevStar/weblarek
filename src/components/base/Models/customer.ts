@@ -21,9 +21,14 @@ class Customer {
     if (payment){this.payment = payment}
    }
 
-   data(){
-    return this.payment, this.address, this.phone, this.email
-  }
+   data(): IBuyer {
+  return {
+    email: this.email,
+    phone: this.phone,
+    address: this.address,
+    payment: this.payment
+  };
+}
 
   reset() {
   this.email = '';
@@ -33,22 +38,19 @@ class Customer {
 }
 
 validation(){
-const emailRegEx = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
-const phoneRegex = /^(\+7|8)\s?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
-const addressRegex = /^[A-Za-zА-Яа-яЁё\s\-]{2,}\s[A-Za-zА-Яа-яЁё\s\-]{2,}\s\d+[A-Za-zА-Яа-я]?$/;
-const mail = this.email;
-const phone = this.phone;
-const payment = this.payment;
-const address = this.address;
+// const emailRegEx = /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+// const phoneRegex = /^(\+7|8)\s?\(?\d{3}\)?[\s-]?\d{3}[\s-]?\d{2}[\s-]?\d{2}$/;
+// const addressRegex = /^[A-Za-zА-Яа-яЁё\s\-]{2,}\s[A-Za-zА-Яа-яЁё\s\-]{2,}\s\d+[A-Za-zА-Яа-я]?$/;
+  let result: { [key: string]: string } = {};
+    if (!this.email) {result.email = 'Адрес почты не указан'};
+    if (!this.phone){result.phone = 'Номер телефона не указан'};
+    if (!this.address){result.address = 'Адрес доставки не указан'};
+    if (!this.payment){result.payment = 'Не выбран вид оплаты'}
+    return result
+  // if (this.email && emailRegEx.test(this.email)) {}
 
-  if (this.email && emailRegEx.test(this.email)) {}
+  } /// сделать отлельный метод валидации для полей через regexp
 
-  return {
-    mail ? null : 'Адрес почты не указан',
-    phone ? null : 'Номер телефона не указан',
-    address ? null : 'Адрес доставки не указан',
-    payment ? null : 'Не выбран вид оплаты'
-  }
 }
 
 // выбор способа оплаты (способ оплаты может принимать значения “card”
@@ -60,4 +62,4 @@ const address = this.address;
 // если одно из полей не заполнено, появляется сообщение об ошибке;
 // кнопка «Оплатить» может быть активной, только если на форме нет ошибок ,
 //  т.е. поля почты и телефона непустые;
-}
+
