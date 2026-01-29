@@ -1,6 +1,6 @@
 import { IProduct } from "../../../types";
 
-class Cart {
+export class Cart {
   private productList: IProduct[];
 
   constructor(productList: IProduct[] = []) {

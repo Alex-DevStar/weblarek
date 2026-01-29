@@ -1,13 +1,13 @@
 import { IProduct } from "../../../types";
 
-class Catalog  {
-  private productList: IProduct[];
-  private productSelected : IProduct;
+export class Catalog  {
+  private productList!: IProduct[];
+  private productSelected! : IProduct;
 
-  constructor(productList: IProduct[], productSelected: IProduct) {
-    this.productList = productList;
-    this.productSelected  = productSelected;
-  }
+  // constructor(productList: IProduct[], productSelected: IProduct) {
+    // this.productList = productList;
+    // this.productSelected  = productSelected;
+  // }
 
   getProductList(){
     return this.productList
@@ -25,8 +25,8 @@ class Catalog  {
      this.productList = products
   }
 
-   productById(id: string) :IProduct | undefined{
-    return this.productList.find((item) => item.id === id)
+   productById(id: string, array: IProduct[]) :IProduct | undefined{
+    return array.find((item) => item.id === id)
   }
 
 

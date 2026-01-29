@@ -1,6 +1,6 @@
 import { IBuyer, TPayment } from "../../../types";
 
-class Customer {
+export class Customer {
  private payment: TPayment;
   private address: string;
   private phone: string;
