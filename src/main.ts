@@ -6,7 +6,6 @@ import { Customer } from './components/base/Models/customer';
 import './scss/styles.scss';
 import { API_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
-import { IBuyer, IOrderRequest } from './types';
 
 const catalog = new Catalog();
 catalog.setProductSelected(apiProducts.items[1]);
