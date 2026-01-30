@@ -1,6 +1,10 @@
+import { Api } from './components/base/Api';
+import { ApiWrapper } from './components/base/class ApiWrapper';
 import { Cart } from './components/base/Models/cart';
 import { Catalog } from './components/base/Models/catalog';
+import { Customer } from './components/base/Models/customer';
 import './scss/styles.scss';
+import { API_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
 
 // const userModel = new Customer ()
@@ -14,11 +18,26 @@ productsModel.setProductList(apiProducts.items)
 
 const cartEx = new Cart();
 cartEx.add(apiProducts.items[1])
-// cartEx.add(apiProducts.items[0])
-cartEx.add(apiProducts.items[3])
-//  console.log("Список покупок :", cartEx.getProductList())
-// cartEx.remove(apiProducts.items[1])
-// cartEx.clear()
-//  console.log("Список покупок :", cartEx.quantity())
- console.log(cartEx.availability("854cef69-976d-4c2a-a18c-2aa45046c390"))
+// // cartEx.add(apiProducts.items[0])
+// cartEx.add(apiProducts.items[3])
+// //  console.log("Список покупок :", cartEx.getProductList())
+// // cartEx.remove(apiProducts.items[1])
+// // cartEx.clear()
+// //  console.log("Список покупок :", cartEx.quantity())
+//  console.log(cartEx.availability("854cef69-976d-4c2a-a18c-2aa45046c390"))
 
+const user = new Customer();
+user.fill("user@user.com", "123123", '', "cash")
+// // user.reset()
+// console.log(user.validation())
+const pi = new Api(API_URL)
+const comm =  new ApiWrapper(pi)
+
+// console.log(comm.getProducts())
+
+// try {
+//  const res = await comm.postProducts([apiProducts.items[0]]);
+// console.log(res)}
+// catch (err) {
+// console.log("Ошибка при отправке продукта:", err)
+// }
