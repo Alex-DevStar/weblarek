@@ -28,4 +28,14 @@ export interface Iorder {
   total: number;
 }
 
+export interface IProductsResponse {
+  total: number;
+  items: IProduct[];
+}
+
+export interface IOrderRequest extends IBuyer {
+    total: number,
+    items: string[]
+}
+
 

@@ -21,7 +21,7 @@ export class Cart {
 
   }
 
-  totalPrice(){
+  totalPrice():number{
     const result = this.productList.reduce((acc: number, item: IProduct ): number => {
       if (item.price !== null) {
       acc += item.price }
@@ -30,16 +30,12 @@ export class Cart {
     return result
   }
 
-  quantity(){
+  quantity():number{
     return this.productList.length
   }
 
   availability(id: string): boolean{
-    let item = this.productList.find((item) => item.id === id)
-    if (item) {
-      return true
-    }
-    return  false
+    return this.productList.some((item) => item.id === id);
   }
 
 }

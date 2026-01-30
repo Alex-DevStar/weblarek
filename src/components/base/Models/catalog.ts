@@ -1,10 +1,10 @@
 import { IProduct } from "../../../types";
 
 export class Catalog  {
-  private productList!: IProduct[];
-  private productSelected! : IProduct;
+  private productList: IProduct[] = [];
+  private productSelected : IProduct | null = null;
 
-  getProductList(){
+  getProductList(): IProduct[]{
     return this.productList
   }
 
@@ -12,7 +12,7 @@ export class Catalog  {
     this.productSelected = product;
   }
 
-  getProductSelected(){
+  getProductSelected(): IProduct | null{
     return this.productSelected;
   }
 
