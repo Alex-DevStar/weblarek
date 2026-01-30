@@ -4,11 +4,6 @@ export class Catalog  {
   private productList!: IProduct[];
   private productSelected! : IProduct;
 
-  // constructor(productList: IProduct[], productSelected: IProduct) {
-    // this.productList = productList;
-    // this.productSelected  = productSelected;
-  // }
-
   getProductList(){
     return this.productList
   }

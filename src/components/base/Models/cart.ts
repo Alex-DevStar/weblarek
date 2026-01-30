@@ -2,9 +2,7 @@ import { IProduct } from "../../../types";
 
 export class Cart {
   private productList: IProduct[] = [];
-  // constructor(productList: IProduct[] = []) {
-  //   this.productList = productList;
-  // }
+
   getProductList(){
     return this.productList
   }
@@ -43,6 +41,5 @@ export class Cart {
     }
     return  false
   }
-  // return this._productList.some(item => item.id === id);
 
 }
