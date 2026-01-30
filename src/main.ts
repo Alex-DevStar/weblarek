@@ -1,8 +1,8 @@
 import { Api } from './components/base/Api';
 import { ApiWrapper } from './components/base/ApiWrapper';
-import { Cart } from './components/base/Models/cart';
-import { Catalog } from './components/base/Models/catalog';
-import { Customer } from './components/base/Models/customer';
+import { Cart } from './components/Models/cart';
+import { Catalog } from './components/Models/catalog';
+import { Customer } from './components/Models/customer';
 import './scss/styles.scss';
 import { API_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
