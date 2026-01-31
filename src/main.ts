@@ -34,7 +34,14 @@ console.log("После reset:", customer.data());
 
 const api = new Api(API_URL)
 const comm = new ApiWrapper(api)
-console.log("Результат запроса", comm.getProducts());
+comm.getProducts()
+  .then((items) => {
+    catalog.setProductList(items);
+    console.log(catalog.getProductList());
+  })
+  .catch((err) => {
+    console.error("Ошибка при получении товаров:", err);
+  });
 
 
 
