@@ -14,7 +14,7 @@
 - src/scss/styles.scss — корневой файл стилей
 - src/utils/constants.ts — файл с константами
 - src/utils/utils.ts — файл с утилитами
-<!-- - src/components/base/Models/ — папка с классами -->
+- src/components/Models/ — папка с классами
 
 ## Установка и запуск
 Для установки и запуска проекта необходимо выполнить команды
