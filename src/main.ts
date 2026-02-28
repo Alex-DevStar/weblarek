@@ -1,11 +1,15 @@
 import { Api } from './components/base/Api';
 import { ApiWrapper } from './components/base/ApiWrapper';
+import { EventEmitter } from './components/base/Events';
 import { Cart } from './components/Models/cart';
 import { Catalog } from './components/Models/catalog';
 import { Customer } from './components/Models/customer';
+import { Gallery } from './components/Views/Gallery';
+import { Header } from './components/Views/Header';
 import './scss/styles.scss';
 import { API_URL } from './utils/constants';
 import { apiProducts } from './utils/data';
+import { ensureElement } from './utils/utils';
 
 const catalog = new Catalog();
 catalog.setProductSelected(apiProducts.items[1]);
@@ -43,6 +47,17 @@ comm.getProducts()
     console.error("Ошибка при получении товаров:", err);
   });
 
+
+// const events = new EventEmitter()
+// const galleryElement = ensureElement<HTMLElement>('.gallery');
+// const gallery = new Gallery(galleryElement);
+// const div = ensureElement<HTMLElement>('#success');
+// gallery.catalog = [div]
+
+
+// const headerElement = ensureElement<HTMLElement>('.header__container');
+// const header = new Header(events , headerElement);
+// header.counter = 3
 
 
 

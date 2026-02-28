@@ -44,7 +44,7 @@ export function ensureElement<T extends HTMLElement>(selectorElement: SelectorEl
     throw new Error('Unknown selector element');
 }
 
-export function cloneTemplate<T extends HTMLElement>(query: string | HTMLTemplateElement): T {
+export function cloneTemplate<T extends HTMLElement>( query: string | HTMLTemplateElement): T {
     const template = ensureElement(query) as HTMLTemplateElement;
     if (!template.content.firstElementChild) {
         throw new Error(`Template ${query} has no content`);
