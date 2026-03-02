@@ -1,6 +1,6 @@
+import { ICardActions } from "../../../types";
 import { categoryMap } from "../../../utils/constants";
 import { ensureElement } from "../../../utils/utils";
-import { IEvents } from "../../base/Events";
 import { Card } from "./Card";
 import { CategoryKey } from "./CardPreview";
 
@@ -12,8 +12,8 @@ export class CardCatalog extends Card {
   protected titleElement: HTMLElement;
   protected priceElement: HTMLElement;
   constructor(
-    protected events: IEvents,
     container: HTMLElement,
+    actions?: ICardActions
   ) {
     super(container);
 
@@ -34,9 +34,11 @@ export class CardCatalog extends Card {
       this.container,
     );
 
-    this.container.addEventListener('click', () => {
-	  this.events.emit('card:click');
-	});
+    if (actions?.onClick){
+      this.container.addEventListener('click', actions.onClick)
+    }
+
+
 
   }
 set category (value: CategoryKey) {

@@ -38,4 +38,7 @@ export interface IOrderRequest extends IBuyer {
     items: string[]
 }
 
+export interface ICardActions {
+  onClick?: () => void;
+}
 

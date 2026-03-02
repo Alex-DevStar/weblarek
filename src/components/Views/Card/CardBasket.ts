@@ -2,7 +2,7 @@ import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Card } from "./Card";
 
-export class CardCatalog extends Card {
+export class CardBasket extends Card {
   protected indexElement: HTMLElement;
   protected buttonElement: HTMLButtonElement;
   protected titleElement: HTMLElement;
@@ -30,8 +30,8 @@ export class CardCatalog extends Card {
       this.container,
     );
 
-    this.container.addEventListener("click", () => {
-      this.events.emit("card:removeFromCart");
+    this.buttonElement.addEventListener("click", () => {
+      this.events.emit("card:remove");
     });
   }
 }
