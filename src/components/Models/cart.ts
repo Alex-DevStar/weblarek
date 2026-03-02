@@ -1,7 +1,10 @@
 import { IProduct } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class Cart {
   private productList: IProduct[] = [];
+
+  constructor(protected events: IEvents){}
 
   getProductList(){
     return this.productList
@@ -9,15 +12,18 @@ export class Cart {
 
   add(product: IProduct) {
     this.productList.push(product)
+    this.events.emit('cart:change', product)
   }
 
   remove(product: IProduct){
     const index = this.productList.indexOf(product);
     this.productList.splice(index, 1)
+    this.events.emit('cart:change', product)
   }
 
   clear(){
     this.productList = [];
+    this.events.emit('cart:change')
 
   }
 

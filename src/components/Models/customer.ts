@@ -1,4 +1,5 @@
 import { IBuyer, TPayment } from "../../types";
+import { IEvents } from "../base/Events";
 
 export class Customer {
   private payment: TPayment = '';
@@ -6,6 +7,7 @@ export class Customer {
   private phone: string = '';
   private email: string = '';
 
+  constructor(protected events: IEvents){}
 
    setData(data: Partial<IBuyer>): void {
         if (data.payment !== undefined) {
@@ -20,6 +22,8 @@ export class Customer {
         if (data.address !== undefined) {
             this.address = data.address;
         }
+
+        this.events.emit('customer:payment_change')
   }
 
    data(): IBuyer {
