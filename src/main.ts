@@ -9,6 +9,7 @@ import { CardCatalog } from "./components/Views/Card/CardCatalog";
 import { CardPreview } from "./components/Views/Card/CardPreview";
 import { Gallery } from "./components/Views/Gallery";
 import { Header } from "./components/Views/Header";
+import { Modal } from "./components/Views/Modal";
 import "./scss/styles.scss";
 import { API_URL } from "./utils/constants";
 import { apiProducts } from "./utils/data";
@@ -18,6 +19,8 @@ const events = new EventEmitter();
 const catalog = new Catalog(events);
 const galleryElement = ensureElement<HTMLElement>(".gallery");
 const gallery = new Gallery(galleryElement);
+const modalElement = ensureElement<HTMLElement>(".modal");
+const modal = new Modal(events, modalElement)
 
 const api = new Api(API_URL);
 const comm = new ApiWrapper(api);
@@ -41,5 +44,21 @@ events.on("catalog:change", () => {
 
   gallery.render({ catalog: cards });
 });
+
+events.on("card:select", (item) => {
+
+  const card = new CardPreview(events, cloneTemplate("#card-preview"))
+  const filledCard = card.render(item)
+  modal.content = filledCard
+  gallery.render()
+})
+
+events.on("modal:open", ()=> {
+  modalElement.classList.add('modal_active')
+})
+
+events.on("modal:close", ()=> {
+  modalElement.classList.remove('modal_active')
+})
 
 

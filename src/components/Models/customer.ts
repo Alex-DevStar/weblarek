@@ -23,7 +23,7 @@ export class Customer {
             this.address = data.address;
         }
 
-        this.events.emit('customer:payment_change')
+        this.events.emit('customer:payment_change', data)
   }
 
    data(): IBuyer {

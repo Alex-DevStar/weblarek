@@ -18,7 +18,7 @@ constructor (protected container: HTMLElement){
   }
 
   set price (value:string) {
-    this.priceElement.textContent = value
+    this.priceElement.textContent = value;
   }
 }
 

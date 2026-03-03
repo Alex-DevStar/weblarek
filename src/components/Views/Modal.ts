@@ -13,10 +13,14 @@ export class Modal extends Component<IModal> {
     super(container);
 
     this.modalButton = ensureElement<HTMLButtonElement>('.modal__close', this.container);
+    this.modalButton.addEventListener('click', () => {
+      this.events.emit("modal:close")
+    })
     this.contentElement = ensureElement<HTMLElement>('.modal__content', this.container);
   }
-  set content (value: HTMLTemplateElement){
-  const template = cloneTemplate<HTMLElement>(value)
-  this.contentElement.append(template)
+  set content (value: HTMLElement){
+  this.events.emit("modal:open")
+  this.contentElement.replaceChildren(value)
 }
+
 }
