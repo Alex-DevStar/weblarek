@@ -17,8 +17,10 @@ constructor (protected container: HTMLElement){
     this.titleElement.textContent = value
   }
 
-  set price (value:string) {
-    this.priceElement.textContent = value;
+  set price (value:string | null) {
+    this.priceElement.textContent = value === null
+      ? 'Бесценно'
+      : `${value} синапсов`;
   }
 }
 

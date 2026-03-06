@@ -24,6 +24,13 @@ constructor(protected container: HTMLElement, protected events: IEvents){
     });
 }
 
+setEnable(item:boolean) {
+  if (!item)
+{this.buttonElement.setAttribute('disabled', '')}
+  else {this.buttonElement.removeAttribute('disabled')}
+    }
+
+
 set list(elements: HTMLElement[]){
     this.basketList.replaceChildren(...elements);
 }

@@ -1,5 +1,5 @@
 import { ICardActions } from "../../../types";
-import { categoryMap } from "../../../utils/constants";
+import { categoryMap, CDN_URL } from "../../../utils/constants";
 import { ensureElement } from "../../../utils/utils";
 import { Card } from "./Card";
 import { CategoryKey } from "./CardPreview";
@@ -53,7 +53,7 @@ categoryMap[key as CategoryKey],
 }
 
   set image (value: string) {
-    this.setImage(this.imageElement, value, this.title)
+    this.setImage(this.imageElement,(CDN_URL + value), this.title)
   }
 
 }

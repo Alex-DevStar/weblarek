@@ -40,6 +40,8 @@ export class Customer {
   this.phone = '';
   this.address = '';
   this.payment = '';
+  this.events.emit('customer:data_reset')
+
 }
 
 validation():Partial<Record<keyof IBuyer, string>>{

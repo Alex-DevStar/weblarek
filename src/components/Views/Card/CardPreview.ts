@@ -1,4 +1,5 @@
-import { categoryMap } from "../../../utils/constants";
+import { ICardActions } from "../../../types";
+import { categoryMap, CDN_URL } from "../../../utils/constants";
 import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Card } from "./Card";
@@ -12,8 +13,8 @@ export class CardPreview extends Card {
   protected titleElement: HTMLElement;
   protected priceElement: HTMLElement;
   constructor(
-    protected events: IEvents,
     container: HTMLElement,
+    actions?: ICardActions,
   ) {
     super(container);
 
@@ -38,13 +39,18 @@ export class CardPreview extends Card {
       this.container,
     );
 
-    this.buttonElement.addEventListener("click", () => {
-      if (this.buttonElement.textContent === "В корзину") {
-        this.events.emit("card:add");
-      } else if (this.buttonElement.textContent === "Удалить из корзины") {
-        this.events.emit("card:remove");
-      }
-    });
+    if (actions?.onClick){
+      this.container.addEventListener('click', actions.onClick)
+    }
+  }
+
+  setEnable(value:boolean){
+    if (!value) {
+      this.buttonElement.setAttribute('disabled', '')
+    }
+    else {
+      this.buttonElement.removeAttribute('disabled')
+    }
   }
 
   set category(value: CategoryKey) {
@@ -57,30 +63,7 @@ export class CardPreview extends Card {
     this.categoryElement.textContent = value;
   }
 
-  // set category(value: ProductType) {
-
-  //   switch (value) {
-  //     case "софт-скил":
-  //       this.categoryElement.classList.toggle("card__category_soft");
-  //       break;
-  //     case "другое":
-  //       this.categoryElement.classList.toggle("card__category_other");
-  //       break;
-  //     case "дополнительное":
-  //       this.categoryElement.classList.toggle("card__category_additional");
-  //       break;
-  //     case "кнопка":
-  //       this.categoryElement.classList.toggle("card__category_button");
-  //       break;
-  //     case "хард-скил":
-  //       this.categoryElement.classList.toggle("card__category_hard");
-  //       break;
-  //   }
-
-  //       this.categoryElement.textContent = value;
-  // }
-
-  set image(value: string) {
-    this.setImage(this.imageElement, value, this.title);
-  }
+  set image (value: string) {
+      this.setImage(this.imageElement,(CDN_URL + value), this.title)
+    }
 }

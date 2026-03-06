@@ -1,5 +1,5 @@
+import { ICardActions } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
-import { IEvents } from "../../base/Events";
 import { Card } from "./Card";
 
 export class CardBasket extends Card {
@@ -8,8 +8,8 @@ export class CardBasket extends Card {
   protected titleElement: HTMLElement;
   protected priceElement: HTMLElement;
   constructor(
-    protected events: IEvents,
     container: HTMLElement,
+    actions?: ICardActions
   ) {
     super(container);
 
@@ -30,8 +30,8 @@ export class CardBasket extends Card {
       this.container,
     );
 
-    this.buttonElement.addEventListener("click", () => {
-      this.events.emit("card:remove");
-    });
+    if (actions?.onClick){
+      this.container.addEventListener('click', actions.onClick)
+    }
   }
 }
