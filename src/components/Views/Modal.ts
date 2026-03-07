@@ -1,4 +1,4 @@
-import { cloneTemplate, ensureElement } from "../../utils/utils";
+import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
 
@@ -14,7 +14,16 @@ export class Modal extends Component<IModal> {
 
     this.modalButton = ensureElement<HTMLButtonElement>('.modal__close', this.container);
     this.modalButton.addEventListener('click', () => {
+      this.close();
       this.events.emit("modal:close")
+    })
+
+    this.container.addEventListener("click", (e) => {
+      if (e.target === e.currentTarget) {
+        this.close();
+        this.events.emit("modal:close")
+    }
+
     })
     this.contentElement = ensureElement<HTMLElement>('.modal__content', this.container);
   }
@@ -22,5 +31,13 @@ export class Modal extends Component<IModal> {
   this.events.emit("modal:open")
   this.contentElement.replaceChildren(value)
 }
+
+  open (){
+    this.container.classList.add("modal_active");
+  }
+
+  close (){
+    this.container.classList.remove("modal_active");
+  }
 
 }

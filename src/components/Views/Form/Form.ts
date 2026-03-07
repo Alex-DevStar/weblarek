@@ -17,7 +17,7 @@ export abstract class Form<T> extends Component<T> {
       this.container,
     );
 
-    this.errorsElement = ensureElement<HTMLElement>("form__errors", this.container)
+    this.errorsElement = ensureElement<HTMLElement>(".form__errors", this.container)
 
     this.submitButton.addEventListener("click", (e) => {
       e.preventDefault();
@@ -25,7 +25,7 @@ export abstract class Form<T> extends Component<T> {
     });
   }
 
-  protected setButtonEnabled(isEnabled: boolean) {
+   setButtonEnabled(isEnabled: boolean) {
     if (isEnabled) {
       this.submitButton.removeAttribute("disabled");
     } else {

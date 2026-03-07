@@ -65,15 +65,8 @@ events.on("card:select", (item: any) => {
   card.setEnable(item.price !== null);
   const filledCard = card.render(item);
   modal.content = filledCard;
+  modal.open()
   gallery.render();
-});
-
-events.on("modal:open", () => {
-  modalElement.classList.add("modal_active");
-});
-
-events.on("modal:close", () => {
-  modalElement.classList.remove("modal_active");
 });
 
 events.on("card:add", (item: IProduct) => {
@@ -107,6 +100,7 @@ events.on("basket:open", () => {
   const basketState = cart.quantity() !== 0;
   basket.setEnable(basketState); // создать функцию
   modal.content = basket.render();
+  modal.open()
 });
 
 events.on("basket:order", () => {
@@ -117,9 +111,9 @@ events.on("order:change", (data: IBuyer) => {
   customer.setData(data);
   const customerData = customer.data();
   const isEnable = Boolean(customerData.address && customerData.payment);
-  orderForm.setEnable(isEnable);
+  orderForm.setButtonEnabled(isEnable);
   const isEnableContacts = Boolean(customerData.email && customerData.phone);
-  contactsForm.setEnable(isEnableContacts);
+  contactsForm.setButtonEnabled(isEnableContacts);
 });
 
 events.on("form:order", () => {
