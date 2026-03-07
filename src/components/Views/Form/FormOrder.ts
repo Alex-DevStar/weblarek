@@ -1,22 +1,22 @@
 import { ensureElement } from "../../../utils/utils";
-import { Component } from "../../base/Component";
 import { IEvents } from "../../base/Events";
+import { Form } from "./Form";
 
 interface IOrder {
   address: string;
+  payment: "card" | "cash";
 }
 
-export class FormOrder extends Component<IOrder> {
+export class FormOrder extends Form<IOrder> {
   protected AddressElement: HTMLInputElement;
   protected CardButtonElement: HTMLButtonElement;
   protected CashButtonElement: HTMLButtonElement;
-  protected buttonElement: HTMLButtonElement;
 
   constructor(
     container: HTMLElement,
     protected events: IEvents,
   ) {
-    super(container);
+    super(container, events);
     this.CardButtonElement = ensureElement<HTMLButtonElement>(
       "[name=card]",
       this.container,
@@ -25,10 +25,7 @@ export class FormOrder extends Component<IOrder> {
       "[name=cash]",
       this.container,
     );
-    this.buttonElement = ensureElement<HTMLButtonElement>(
-      ".order__button",
-      this.container,
-    );
+
     this.AddressElement = ensureElement<HTMLInputElement>(
       "[name=address]",
       this.container,
@@ -47,16 +44,6 @@ export class FormOrder extends Component<IOrder> {
       this.events.emit("order:change", {payment: "cash"});
     });
 
-    this.buttonElement.addEventListener("click", (e) => {
-        e.preventDefault();
-
-      this.events.emit("form:order");
-    });
   }
 
-  setEnable(item:boolean) {
-  if (!item)
-{this.buttonElement.setAttribute('disabled', '')}
-  else {this.buttonElement.removeAttribute('disabled')}
-    }
 }

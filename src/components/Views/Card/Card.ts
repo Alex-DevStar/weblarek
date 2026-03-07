@@ -1,3 +1,4 @@
+import { ensureElement } from "../../../utils/utils";
 import { Component } from "../../base/Component";
 
 
@@ -7,11 +8,21 @@ interface ICard {
 }
 
 export abstract class  Card extends Component<ICard> {
-protected abstract titleElement: HTMLElement;
-protected abstract priceElement: HTMLElement;
+protected  titleElement: HTMLElement;
+protected  priceElement: HTMLElement;
 
 constructor (protected container: HTMLElement){
   super(container)
+
+ this.titleElement = ensureElement<HTMLElement>(
+      ".card__title",
+      this.container,
+    );
+    this.priceElement = ensureElement<HTMLElement>(
+      ".card__price",
+      this.container,
+    );
+
 }
  set title(value:string) {
     this.titleElement.textContent = value
