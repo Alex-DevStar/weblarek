@@ -628,3 +628,74 @@ export class Success extends Component<ISuccess> {
 
 - `set total(value: string)` — подставляет итоговую сумму в текст сообщения;
 - обработчик клика по `buttonElement` эмитит событие закрытия модалки и/или очистки состояния (возврат к каталогу).
+
+### Цепочки событий (View → Presenter → Model)
+
+Ниже — основные цепочки взаимодействия между слоями через `EventEmitter` (файл `main.ts`):
+
+1. Загрузка каталога
+   - Presenter: запрашивает товары через `ApiWrapper.getProducts()`;
+   - Model `Catalog`: сохраняет список товаров `setProductList(items)` и эмитит `catalog:change`;
+   - View `Gallery`:
+     - обработчик `events.on('catalog:change', ...)`;
+     - создаёт карточки `CardCatalog` на основе данных;
+     - вызывает `gallery.render({ catalog: cards })`.
+
+2. Выбор товара из каталога
+   - View `CardCatalog`:
+     - по клику вызывает обработчик `onClick`;
+     - презентер эмитит `events.emit('card:select', item)`;
+   - Presenter (в `main.ts`):
+     - на `card:select` создаёт `CardPreview`;
+     - рендерит превью и подставляет его в `Modal`;
+     - открывает модалку с выбранным товаром.
+
+3. Добавление товара в корзину
+   - View `CardPreview`:
+     - по клику по кнопке вызывает `onClick`;
+     - презентер эмитит `events.emit('card:add', item)`;
+   - Presenter:
+     - обработчик `events.on('card:add', ...)` вызывает `cart.add(item)`;
+     - модель `Cart` внутри себя эмитит `cart:change`.
+
+4. Обновление корзины и шапки
+   - Model `Cart`: при изменениях эмитит `cart:change`;
+   - Presenter на `cart:change`:
+     - берёт `cart.getProductList()` и создаёт список `CardBasket`;
+     - передаёт карточки в `basket.list`;
+     - считает сумму через `cart.totalPrice()` и записывает в `basket.total`;
+     - обновляет счётчик в `Header` через `header.counter`.
+
+5. Открытие корзины
+   - View `Header`:
+     - по клику по иконке корзины эмитит `basket:open`;
+   - Presenter:
+     - на `basket:open` рендерит `Basket` и подставляет в `Modal`.
+
+6. Первый шаг оформления заказа (способ оплаты + адрес)
+   - View `FormOrder`:
+     - на ввод в адрес эмитит `order:change` c частичными данными;
+     - на выбор способа оплаты — `order:paymentCard` или `order:paymentCash`;
+     - на кнопку «Далее» — `form:order`.
+   - Presenter:
+     - на `order:change` / `order:payment*` вызывает `customer.setData(...)`;
+     - валидирует заполненность (адрес + способ оплаты) и через `orderForm.setEnable(...)` включает/выключает кнопку;
+     - на `form:order` подставляет во `Modal` вторую форму `FormContacts`.
+
+7. Второй шаг оформления заказа (контакты)
+   - View `FormContacts`:
+     - на ввод email/телефона эмитит событие обновления (например, `contacts:change`);
+     - на кнопку отправки — финальное событие оформления (например, `order:submit`).
+   - Presenter:
+     - на `contacts:change` обновляет модель `Customer`;
+     - на `order:submit` собирает объект `IOrderRequest` из `Customer` и `Cart`;
+     - отправляет заказ через `ApiWrapper`;
+     - очищает корзину и данные покупателя;
+     - подставляет в модалку компонент `Success` с итоговой суммой.
+
+8. Экран успеха
+   - View `Success`:
+     - показывает финальную сумму заказа;
+     - по клику по кнопке эмитит событие возврата к каталогу (например, `success:close`);
+   - Presenter:
+     - закрывает модалку и возвращает пользователя на главный экран.
