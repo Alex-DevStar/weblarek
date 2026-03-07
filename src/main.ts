@@ -13,10 +13,10 @@ import { FormOrder } from "./components/Views/Form/FormOrder";
 import { Gallery } from "./components/Views/Gallery";
 import { Header } from "./components/Views/Header";
 import { Modal } from "./components/Views/Modal";
+import { Success } from "./components/Views/Success";
 import "./scss/styles.scss";
-import { IProduct } from "./types";
+import { IBuyer, IProduct } from "./types";
 import { API_URL } from "./utils/constants";
-import { apiProducts } from "./utils/data";
 import { cloneTemplate, ensureElement } from "./utils/utils";
 
 const events = new EventEmitter();
@@ -29,10 +29,10 @@ const basket = new Basket(cloneTemplate("#basket"), events);
 const cart = new Cart(events);
 const headerElement = ensureElement<HTMLElement>(".header");
 const header = new Header(events, headerElement);
-const customer = new Catalog(events)
-const orderForm = new FormOrder(cloneTemplate("#order"), events)
-const contactsForm = new FormContacts(cloneTemplate("#contacts"), events)
-
+const customer = new Customer(events);
+const orderForm = new FormOrder(cloneTemplate("#order"), events);
+const contactsForm = new FormContacts(cloneTemplate("#contacts"), events);
+const success = new Success(cloneTemplate("#success"), events);
 
 const api = new Api(API_URL);
 const comm = new ApiWrapper(api);
@@ -57,12 +57,12 @@ events.on("catalog:change", () => {
   gallery.render({ catalog: cards });
 });
 
-events.on("card:select", (item:any) => {
+events.on("card:select", (item: any) => {
   const card = new CardPreview(cloneTemplate("#card-preview"), {
     onClick: () => events.emit("card:add", item),
   });
   // catalog.setProductSelected(item)
-  card.setEnable(item.price !== null)
+  card.setEnable(item.price !== null);
   const filledCard = card.render(item);
   modal.content = filledCard;
   gallery.render();
@@ -96,26 +96,61 @@ events.on("cart:change", () => {
   });
   basket.list = cards;
   basket.total = cart.totalPrice() + " " + "синапсов";
-  basket.render()
+  basket.render();
 });
 
-events.on("card:remove", (item:any) => {
-  cart.remove(item)
+events.on("card:remove", (item: any) => {
+  cart.remove(item);
 });
 
 events.on("basket:open", () => {
-const basketState = cart.quantity() !== 0
-basket.setEnable(basketState)
+  const basketState = cart.quantity() !== 0;
+  basket.setEnable(basketState); // создать функцию
   modal.content = basket.render();
-  // events.emit("modal:open")
 });
 
 events.on("basket:order", () => {
-modal.content = orderForm.render()
-})
+  modal.content = orderForm.render();
+});
+
+events.on("order:change", (data: IBuyer) => {
+  customer.setData(data);
+  const customerData = customer.data();
+  const isEnable = Boolean(customerData.address && customerData.payment);
+  orderForm.setEnable(isEnable);
+  const isEnableContacts = Boolean(customerData.email && customerData.phone);
+  contactsForm.setEnable(isEnableContacts);
+});
 
 events.on("form:order", () => {
-  modal.content = contactsForm.render()
-})
+  modal.content = contactsForm.render();
+});
 
+events.on("form:submit", () => {
+  const errors = customer.validation();
+  if (Object.keys(errors).length > 0) {
+    throw errors;
+  }
 
+  const order = Object.assign(
+    {},
+    customer.data(),
+    { total: cart.totalPrice() },
+    { items: cart.getProductList().map((item) => item.id) },
+  );
+  comm
+    .postProducts(order)
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      console.error("Ошибка при получении товаров:", err);
+    });
+  success.total = cart.totalPrice();
+  modal.content = success.render();
+});
+
+events.on("success:close", () => {
+  cart.clear();
+  modalElement.classList.remove("modal_active");
+});

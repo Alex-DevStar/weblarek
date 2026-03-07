@@ -22,18 +22,24 @@ constructor(container: HTMLElement, protected events: IEvents) {
 
 
     this.EmailElement.addEventListener("input", () => {
-      this.events.emit("Contacts:change");
+      this.events.emit("order:change", {email: this.EmailElement.value});
     });
 
     this.PhoneElement.addEventListener("input", () => {
-      this.events.emit("Contacts:change");
+      this.events.emit("order:change", {phone: this.PhoneElement.value});
 
     });
 
-    if (this.EmailElement.value.trim() || this.PhoneElement.value.trim()) {
-      this.ButtonElement.removeAttribute('disabled')
+    this.ButtonElement.addEventListener("click", (e) => {
+      e.preventDefault();
+      this.events.emit("form:submit");
+
+    });
+
+}
+setEnable(item:boolean) {
+  if (!item)
+{this.ButtonElement.setAttribute('disabled', '')}
+  else {this.ButtonElement.removeAttribute('disabled')}
     }
-      else {this.ButtonElement.setAttribute('disabled', '')
-}
-}
 }
