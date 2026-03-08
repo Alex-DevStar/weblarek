@@ -18,17 +18,19 @@ constructor(protected container: HTMLElement, protected events: IEvents){
   this.buttonElement = ensureElement<HTMLButtonElement>('.basket__button' , this.container)
   this.basketTotalElement = ensureElement<HTMLElement>('.basket__price' , this.container)
 
+  this.buttonElement.setAttribute('disabled', '')
 
   this.buttonElement.addEventListener("click", () => {
       this.events.emit("basket:order");
     });
 }
 
-setEnable(item:boolean) {
-  if (!item)
+setEnable(enabled:boolean) {
+  if (!enabled)
 {this.buttonElement.setAttribute('disabled', '')}
   else {this.buttonElement.removeAttribute('disabled')}
     }
+
 
 
 set list(elements: HTMLElement[]){

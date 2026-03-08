@@ -4,7 +4,7 @@ import { Component } from "../../base/Component";
 
 interface ICard {
   title: string;
-  price: string
+  price: number | null;
 }
 
 export abstract class  Card extends Component<ICard> {

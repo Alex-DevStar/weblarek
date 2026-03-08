@@ -6,6 +6,7 @@ import { IBuyer } from "../../../types";
 export abstract class Form<T> extends Component<T> {
   protected submitButton: HTMLButtonElement;
   protected errorsElement: HTMLElement;
+  protected submitEventName = "form:submit";
 
   constructor(
     container: HTMLElement,
@@ -21,7 +22,7 @@ export abstract class Form<T> extends Component<T> {
 
     this.submitButton.addEventListener("click", (e) => {
       e.preventDefault();
-      this.events.emit("form:submit");
+      this.events.emit(this.submitEventName);
     });
   }
 

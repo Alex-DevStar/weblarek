@@ -1,3 +1,4 @@
+import { TPayment } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Form } from "./Form";
@@ -17,6 +18,9 @@ export class FormOrder extends Form<IOrder> {
     protected events: IEvents,
   ) {
     super(container, events);
+
+    this.submitEventName = "form:order";
+
     this.CardButtonElement = ensureElement<HTMLButtonElement>(
       "[name=card]",
       this.container,
@@ -45,5 +49,20 @@ export class FormOrder extends Form<IOrder> {
     });
 
   }
+
+  set address(value:string) {
+      this.AddressElement.value = value;
+    }
+
+    set payment(value: TPayment) {
+  const isCard = value === "card";
+  const isCash = value === "cash";
+
+  this.CardButtonElement.classList.toggle("button_alt-active", isCard);
+  this.CashButtonElement.classList.toggle("button_alt-active", isCash);
+
+  this.CardButtonElement.setAttribute("aria-pressed", String(isCard));
+  this.CashButtonElement.setAttribute("aria-pressed", String(isCash));
+}
 
 }
