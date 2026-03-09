@@ -52,7 +52,7 @@ comm
 events.on("catalog:change", () => {
   const cards = catalog.getProductList().map((item: IProduct) => {
     const card = new CardCatalog(cloneTemplate("#card-catalog"), {
-      onClick: () => events.emit("card:select", item),
+      onClick: () => catalog.setProductSelected(item), // проверить
     });
 
     return card.render(item);
@@ -79,8 +79,9 @@ events.on("preview:toggle", () => {
   modal.close();
 });
 
-events.on("card:select", (item: IProduct) => {
-  catalog.setProductSelected(item);
+events.on("card:select", () => {
+  const item = catalog.getProductSelected();
+  if (!item) return;
   const inCart = cart.availability(item.id);
   if (item.price === null) {
     card.setEnable(false);
@@ -90,8 +91,7 @@ events.on("card:select", (item: IProduct) => {
     card.buttonText = inCart ? "Удалить" : "Купить";
   }
 
-  const filledCard = card.render(item);
-  modal.content = filledCard;
+  modal.content = card.render(item);
   modal.open();
   gallery.render();
 });
@@ -132,11 +132,6 @@ events.on("basket:order", () => {
 
 events.on("order:change", (data: IBuyer) => {
   customer.setData(data);
-  const customerData = customer.data();
-  const isEnable = Boolean(customerData.address && customerData.payment);
-  orderForm.setButtonEnabled(isEnable);
-  const isEnableContacts = Boolean(customerData.email && customerData.phone);
-  contactsForm.setButtonEnabled(isEnableContacts);
 });
 
 events.on("form:order", () => {

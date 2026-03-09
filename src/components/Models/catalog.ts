@@ -13,7 +13,7 @@ export class Catalog  {
 
   setProductSelected(product: IProduct){
     this.productSelected = product;
-    this.events.emit('catalog:change', product)
+    this.events.emit('card:select')
   }
 
   getProductSelected(): IProduct | null{
@@ -22,7 +22,7 @@ export class Catalog  {
 
   setProductList(products: IProduct[]){
      this.productList = products
-    this.events.emit('catalog:change', products)
+    this.events.emit('catalog:change')
   }
 
    productById(id: string, array: IProduct[]) :IProduct | undefined{

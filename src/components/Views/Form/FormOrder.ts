@@ -9,9 +9,9 @@ interface IOrder {
 }
 
 export class FormOrder extends Form<IOrder> {
-  protected AddressElement: HTMLInputElement;
-  protected CardButtonElement: HTMLButtonElement;
-  protected CashButtonElement: HTMLButtonElement;
+  protected addressElement: HTMLInputElement;
+  protected cardButtonElement: HTMLButtonElement;
+  protected cashButtonElement: HTMLButtonElement;
 
   constructor(
     container: HTMLElement,
@@ -21,48 +21,48 @@ export class FormOrder extends Form<IOrder> {
 
     this.submitEventName = "form:order";
 
-    this.CardButtonElement = ensureElement<HTMLButtonElement>(
+    this.cardButtonElement = ensureElement<HTMLButtonElement>(
       "[name=card]",
       this.container,
     );
-    this.CashButtonElement = ensureElement<HTMLButtonElement>(
+    this.cashButtonElement = ensureElement<HTMLButtonElement>(
       "[name=cash]",
       this.container,
     );
 
-    this.AddressElement = ensureElement<HTMLInputElement>(
+    this.addressElement = ensureElement<HTMLInputElement>(
       "[name=address]",
       this.container,
     );
 
-    this.AddressElement.addEventListener("input", () => {
-      (this.events.emit("order:change", { address: this.AddressElement.value })
+    this.addressElement.addEventListener("input", () => {
+      (this.events.emit("order:change", { address: this.addressElement.value })
         );
     });
 
-    this.CardButtonElement.addEventListener("click", () => {
+    this.cardButtonElement.addEventListener("click", () => {
       this.events.emit("order:change", {payment: "card"});
     });
 
-    this.CashButtonElement.addEventListener("click", () => {
+    this.cashButtonElement.addEventListener("click", () => {
       this.events.emit("order:change", {payment: "cash"});
     });
 
   }
 
   set address(value:string) {
-      this.AddressElement.value = value;
+      this.addressElement.value = value;
     }
 
     set payment(value: TPayment) {
   const isCard = value === "card";
   const isCash = value === "cash";
 
-  this.CardButtonElement.classList.toggle("button_alt-active", isCard);
-  this.CashButtonElement.classList.toggle("button_alt-active", isCash);
+  this.cardButtonElement.classList.toggle("button_alt-active", isCard);
+  this.cashButtonElement.classList.toggle("button_alt-active", isCash);
 
-  this.CardButtonElement.setAttribute("aria-pressed", String(isCard));
-  this.CashButtonElement.setAttribute("aria-pressed", String(isCash));
+  this.cardButtonElement.setAttribute("aria-pressed", String(isCard));
+  this.cashButtonElement.setAttribute("aria-pressed", String(isCash));
 }
 
 }

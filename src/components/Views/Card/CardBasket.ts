@@ -19,7 +19,7 @@ export class CardBasket extends Card {
     );
 
     if (actions?.onClick) {
-      this.container.addEventListener("click", actions.onClick);
+      this.buttonElement.addEventListener("click", actions.onClick);
     }
   }
 
