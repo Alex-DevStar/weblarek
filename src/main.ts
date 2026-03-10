@@ -159,7 +159,7 @@ events.on("form:submit", () => {
 });
 
 events.on("success:close", () => {
-  modalElement.classList.remove("modal_active");
+  modal.close()
 });
 
 events.on("customer:change", () => {

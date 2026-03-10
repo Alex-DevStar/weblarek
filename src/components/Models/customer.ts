@@ -40,7 +40,7 @@ export class Customer {
   this.phone = '';
   this.address = '';
   this.payment = '';
-  this.events.emit('customer:data_reset')
+  this.events.emit('customer:change')
 
 }
 
